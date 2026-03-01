@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap');
+
+:root {
+  --background: #fff9f0;
+  --foreground: #2d1a0e;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'Nunito', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'メイリオ', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* タッチデバイスでの選択を防止 */
+.select-none {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ゲームコンテナ */
+.game-container {
+  min-height: 100dvh;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 1rem;
+}
