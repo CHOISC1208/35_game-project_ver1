@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import type { Product } from "@/context/types";
 
@@ -19,6 +20,7 @@ export default function ProductCard({
   const isRequired = requiredQuantity > 0;
   const isComplete = selectedQuantity >= requiredQuantity && isRequired;
   const isOver = selectedQuantity > requiredQuantity && isRequired;
+  const [imgError, setImgError] = useState(false);
 
   return (
     <motion.div
@@ -37,8 +39,20 @@ export default function ProductCard({
         ${isOver ? "border-red-400 bg-red-50" : ""}
       `}
     >
-      {/* 商品絵文字 */}
-      <div className="text-5xl mb-1">{product.emoji}</div>
+      {/* 商品画像（失敗時は絵文字フォールバック） */}
+      <div className="w-14 h-14 mx-auto mb-1 flex items-center justify-center">
+        {!imgError ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={product.imageUrl}
+            alt={product.name}
+            onError={() => setImgError(true)}
+            className="w-full h-full object-contain"
+          />
+        ) : (
+          <span className="text-5xl">{product.emoji}</span>
+        )}
+      </div>
 
       {/* 商品名 */}
       <p className="text-xs font-bold text-gray-700 mb-1">{product.name}</p>

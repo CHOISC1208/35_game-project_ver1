@@ -1,13 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Clock from "@/components/Clock/Clock";
 import Button from "@/components/ui/Button";
 import { useGame } from "@/context/GameContext";
+import { GAME_ASSETS } from "@/constants/assets";
 
 export default function BriefingScreen() {
   const { state, advanceScreen } = useGame();
   const { mission } = state;
+  const [momImgError, setMomImgError] = useState(false);
 
   if (!mission) return null;
 
@@ -22,7 +25,21 @@ export default function BriefingScreen() {
         transition={{ duration: 0.5 }}
         className="w-full bg-yellow-50 rounded-3xl border-4 border-yellow-300 p-5 relative"
       >
-        <div className="absolute -top-4 left-6 text-5xl">👩</div>
+        {/* キャラクター画像（失敗時は絵文字） */}
+        <div className="absolute -top-6 left-4 w-14 h-14">
+          {!momImgError ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={GAME_ASSETS.CHARACTERS.mom}
+              alt="ママ"
+              onError={() => setMomImgError(true)}
+              className="w-full h-full object-contain"
+            />
+          ) : (
+            <span className="text-5xl leading-none">👩</span>
+          )}
+        </div>
+
         <div className="pt-6">
           <p className="text-lg font-bold text-yellow-800 leading-relaxed">
             ちょっとおつかいをたのんでもいい？
@@ -38,7 +55,11 @@ export default function BriefingScreen() {
             ))}
           </div>
           <p className="mt-3 text-gray-600 text-sm">
-            ぜんぶで <span className="font-black text-orange-600 text-lg">{totalPrice}円</span> だよ！
+            ぜんぶで{" "}
+            <span className="font-black text-orange-600 text-lg">
+              {totalPrice}円
+            </span>{" "}
+            だよ！
           </p>
         </div>
       </motion.div>

@@ -1,54 +1,77 @@
 // ============================================================
 // 全画像URLの一元管理
-// 将来Cloudinaryに差し替える場合はここのURLのみ変更する
+// Cloudinary から配信 — URLのみ変更で全画像を差し替え可能
 // ============================================================
 
-const PH = (text: string, w = 200, h = 200) =>
-  `https://placehold.co/${w}x${h}/FFE4B5/8B4513.png?text=${encodeURIComponent(text)}`;
+const BASE_PATH =
+  "https://res.cloudinary.com/dsuvr4yh8/image/upload/otsukai-timer";
 
-// キャラクター
-export const CHARACTER_URLS = {
-  mom: PH("ママ", 150, 150),
-  shopkeeper: PH("店員", 150, 150),
+export const getAssetUrl = (category: string, name: string): string =>
+  `${BASE_PATH}/${category}/${name}.png`;
+
+// ============================================================
+// GAME_ASSETS — カテゴリ別の一覧
+// ============================================================
+export const GAME_ASSETS = {
+  MONEY: {
+    C10: getAssetUrl("money", "10yen"),
+    C50: getAssetUrl("money", "50yen"),
+    C100: getAssetUrl("money", "100yen"),
+    C500: getAssetUrl("money", "500yen"),
+    B1000: getAssetUrl("money", "1000yen"),
+  },
+  ITEMS: {
+    bread: getAssetUrl("items", "bread"),
+    milk: getAssetUrl("items", "milk"),
+    apple: getAssetUrl("items", "apple"),
+    banana: getAssetUrl("items", "banana"),
+    egg: getAssetUrl("items", "egg"),
+    juice: getAssetUrl("items", "juice"),
+    cookie: getAssetUrl("items", "cookie"),
+    chocolate: getAssetUrl("items", "chocolate"),
+    icecream: getAssetUrl("items", "icecream"),
+    candy: getAssetUrl("items", "candy"),
+  },
+  CHARACTERS: {
+    mom: getAssetUrl("characters", "mom"),
+    shopkeeper: getAssetUrl("characters", "shopkeeper"),
+  },
+  UI: {
+    shopBg: getAssetUrl("ui", "shop_bg"),
+    homeBg: getAssetUrl("ui", "home_bg"),
+    clockBg: getAssetUrl("ui", "clock_bg"),
+  },
+  STAMPS: {
+    ufo_cat: getAssetUrl("stamps", "ufo_cat"),
+    rainbow_fish: getAssetUrl("stamps", "rainbow_fish"),
+    star_rabbit: getAssetUrl("stamps", "star_rabbit"),
+    cloud_dog: getAssetUrl("stamps", "cloud_dog"),
+    pizza_dragon: getAssetUrl("stamps", "pizza_dragon"),
+    curry_elephant: getAssetUrl("stamps", "curry_elephant"),
+    noodle_penguin: getAssetUrl("stamps", "noodle_penguin"),
+    donut_bear: getAssetUrl("stamps", "donut_bear"),
+  },
 };
 
-// 商品
-export const PRODUCT_URLS = {
-  bread: PH("パン", 120, 120),
-  milk: PH("牛乳", 120, 120),
-  apple: PH("りんご", 120, 120),
-  banana: PH("バナナ", 120, 120),
-  egg: PH("たまご", 120, 120),
-  juice: PH("ジュース", 120, 120),
-  cookie: PH("クッキー", 120, 120),
-  chocolate: PH("チョコ", 120, 120),
-  icecream: PH("アイス", 120, 120),
-  candy: PH("あめ", 120, 120),
-};
+// ============================================================
+// 後方互換エクスポート（既存コードからの参照を維持）
+// ============================================================
 
-// コイン
+export const CHARACTER_URLS = GAME_ASSETS.CHARACTERS;
+
+export const PRODUCT_URLS: Record<string, string> = GAME_ASSETS.ITEMS;
+
 export const COIN_URLS = {
-  coin10: PH("10円", 80, 80),
-  coin50: PH("50円", 80, 80),
-  coin100: PH("100円", 80, 80),
-  coin500: PH("500円", 80, 80),
-  bill1000: PH("1000円", 100, 60),
+  coin10: GAME_ASSETS.MONEY.C10,
+  coin50: GAME_ASSETS.MONEY.C50,
+  coin100: GAME_ASSETS.MONEY.C100,
+  coin500: GAME_ASSETS.MONEY.C500,
+  bill1000: GAME_ASSETS.MONEY.B1000,
 };
 
-// スタンプ
-export const STAMP_URLS: Record<string, string> = {
-  ufo_cat: PH("UFO猫", 160, 160),
-  rainbow_fish: PH("虹の魚", 160, 160),
-  star_rabbit: PH("星ウサギ", 160, 160),
-  cloud_dog: PH("雲犬", 160, 160),
-  pizza_dragon: PH("ピザ竜", 160, 160),
-  curry_elephant: PH("カレー象", 160, 160),
-  noodle_penguin: PH("ラーメン鳥", 160, 160),
-  donut_bear: PH("ドーナツ熊", 160, 160),
-};
+export const STAMP_URLS: Record<string, string> = GAME_ASSETS.STAMPS;
 
-// 背景
 export const BG_URLS = {
-  shop: PH("お店", 800, 400),
-  home: PH("おうち", 800, 400),
+  shop: GAME_ASSETS.UI.shopBg,
+  home: GAME_ASSETS.UI.homeBg,
 };
